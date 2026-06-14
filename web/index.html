@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Dashboard Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+        h1 { text-align: center; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .green { background: #d4edda; color: #155724; }
+        .red { background: #f8d7da; color: #721c24; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Home Automation Demo</h1>
+        
+        <h2>Door Status</h2>
+        <div class="status green">Door: Locked (RFID Required)</div>
+        
+        <h2>Power Supply</h2>
+        <div class="status green">Power: ON (Homeowner Present)</div>
+        
+        <h2>AC Control</h2>
+        <div class="status">AC: Off (Waiting for room entry)</div>
+        
+        <h2>Gas Detection</h2>
+        <div class="status green">LPG: Normal | CO2: Normal</div>
+        
+        <button onclick="simulateGasLeak()">Simulate Gas Leak</button>
+        <button onclick="resetSystem()">Reset System</button>
+    </div>
+
+    <script>
+        function simulateGasLeak() {
+            alert("Gas leak detected! Siren ON, Notification sent, Sprinklers activated.");
+        }
+        function resetSystem() {
+            alert("System reset to normal operation.");
+        }
+    </script>
+</body>
+</html>
