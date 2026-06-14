@@ -5,7 +5,7 @@
 const char* ssid = "YOUR_WIFI_SSID";
 const char* password = "YOUR_WIFI_PASSWORD";
 
-const char* mqtt_server = "broker.hivemq.com";  // or your broker
+const char* mqtt_server = "broker.hivemq.com";
 const int mqtt_port = 1883;
 const char* mqtt_user = "";
 const char* mqtt_pass = "";
