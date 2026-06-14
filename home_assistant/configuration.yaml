@@ -1,0 +1,81 @@
+# Home Assistant Configuration for Smart Home Automation & Security System
+
+homeassistant:
+  name: "Smart Home IoT"
+
+# MQTT Integration
+mqtt:
+  broker: !secret mqtt_broker
+  username: !secret mqtt_user
+  password: !secret mqtt_password
+
+# Sensors from ESP32 via MQTT
+sensor:
+  - platform: mqtt
+    name: "LPG Gas Level"
+    state_topic: "home/gas/lpg"
+    unit_of_measurement: "%"
+    value_template: "{{ value_json.value | default(0) }}"
+
+  - platform: mqtt
+    name: "CO2 Gas Level"
+    state_topic: "home/gas/co2"
+    unit_of_measurement: "ppm"
+
+  - platform: mqtt
+    name: "Water Tank Level"
+    state_topic: "home/water/level"
+
+binary_sensor:
+  - platform: mqtt
+    name: "Door Status"
+    state_topic: "home/door/status"
+    payload_on: "OPEN"
+    payload_off: "CLOSED"
+
+  - platform: mqtt
+    name: "Gas Leak Alert"
+    state_topic: "home/alert/gas"
+    payload_on: "LEAK"
+    payload_off: "NORMAL"
+
+# Switches / Relays
+switch:
+  - platform: mqtt
+    name: "Main Power"
+    state_topic: "home/power/status"
+    command_topic: "home/power/set"
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "AC Control"
+    state_topic: "home/ac/status"
+    command_topic: "home/ac/set"
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "Geyser"
+    state_topic: "home/geyser/status"
+    command_topic: "home/geyser/set"
+
+  - platform: mqtt
+    name: "Garden Sprinkler"
+    state_topic: "home/sprinkler/status"
+    command_topic: "home/sprinkler/set"
+
+# Automation Examples
+automation:
+  - alias: "Gas Leak Response"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.gas_leak_alert
+        to: "on"
+    action:
+      - service: notify.mobile_app_your_phone
+        data:
+          message: "Gas Leak Detected! Activating Safety Measures."
+      - service: switch.turn_on
+        target:
+          entity_id: switch.sprinkler

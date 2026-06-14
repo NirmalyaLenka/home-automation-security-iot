@@ -1,0 +1,80 @@
+# Automations for Home Automation and Security System
+
+- alias: "RFID Door Unlock"
+  trigger:
+    - platform: mqtt
+      topic: "home/rfid/door"
+      payload: "AUTHORIZED"
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.door_lock
+    - service: notify.mobile_app
+      data:
+        message: "Door unlocked via RFID"
+
+- alias: "Home Presence Power On"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.home_owner_present
+      to: "on"
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.main_power
+    - delay:
+        minutes: 15
+    - service: switch.turn_on
+      target:
+        entity_id: switch.ac
+
+- alias: "AC Control with IR Sensor"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.ir_bedroom
+      to: "on"
+  condition:
+    - condition: time
+      after: "18:00:00"
+      before: "08:00:00"
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.ac
+    - delay:
+        minutes: 15
+    - service: switch.turn_off
+      target:
+        entity_id: switch.ac
+
+- alias: "Garden Sprinkler Morning"
+  trigger:
+    - platform: time
+      at: "06:30:00"
+  condition:
+    - condition: state
+      entity_id: binary_sensor.garden_motion
+      state: "off"
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.sprinkler
+    - delay:
+        minutes: 20
+    - service: switch.turn_off
+      target:
+        entity_id: switch.sprinkler
+
+- alias: "Geyser Morning Routine"
+  trigger:
+    - platform: time
+      at: "07:00:00"
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.geyser
+    - delay:
+        minutes: 5
+    - service: switch.turn_off
+      target:
+        entity_id: switch.geyser
