@@ -39,6 +39,16 @@ For detailed sensor explanations, see SENSORS.md.
 
 ---
 
+## Skills & technologies
+
+`Arduino/C++` · `C/C++` · `HTML/CSS`
+
+
+## How it works
+
+The main firmware sketch is `firmware/blynk_integration.ino`. Open it in Arduino IDE, verify the board, pin mapping and library requirements, then compile and upload. Test hardware behaviour on the real circuit before relying on it.
+
+
 ## Maintenance & Audit
 
 - **Audit date:** 10 November 2026
